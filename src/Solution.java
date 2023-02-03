@@ -1,16 +1,17 @@
-import java.io.*;
-public class Solution {
-    public String getReceipt() throws IOException {
-        BufferedReader reader
-                = new BufferedReader(
-                        new FileReader("src/receipt.txt"));
-        String line;
-        double sum = 0.0;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
-        while ((line = reader.readLine()) != null) {
-            String[] res = line.split(";");
-            sum += Double.valueOf(res[2]) * Double.valueOf(res[1]);
+public class Solution {
+    public int getCountWords() throws IOException {
+        FileReader reader = new FileReader("src/text.txt");
+        BufferedReader bf = new BufferedReader(reader);
+        int c = 0;
+        int count = 0;
+        while (c != -1){
+            c = bf.read();
+            if ((char)c == ' ') count++;
         }
-        return String.valueOf(sum);
     }
 }
