@@ -8,7 +8,7 @@ public class Solution {
                 = new BufferedReader(
                         new FileReader("Root/src/receipt.txt"));
         String line;
-        double sum = 0.0;
+        double sum = 0;
 
         while ((line = reader.readLine()) != null) {
             String[] res = line.split(";");
