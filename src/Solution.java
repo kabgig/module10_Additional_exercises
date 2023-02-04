@@ -1,24 +1,31 @@
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Solution {
-    public void writeOrder() throws IOException {
-        Scanner scanner = new Scanner(new FileInputStream("src/numbers.txt"));
-        Writer writer = new FileWriter("src/output.txt");
-        int count = 1;
-        boolean haveNums = false;
-        int digit;
-        String numLine = "";
+    public boolean arePalindromes() throws FileNotFoundException {
+        Scanner scanner = new Scanner(new FileInputStream("Root/src/strings.txt"));
+
+        String phrase = "";
+        boolean result = true;
+        List<Character> palindrome = new ArrayList<>();
+
         while (scanner.hasNextLine()) {
-            digit = Integer.parseInt(scanner.nextLine());
-            if (digit == count) {
-                numLine += digit + " ";
-                haveNums = true;
+            phrase = scanner.nextLine().toLowerCase().replace(" ", "");
+            for (int i = phrase.length()-1; i >= 0; i--) {
+                palindrome.add(phrase.charAt(i));
             }
-            count++;
+            int index = 0;
+            for (Character items : palindrome)
+                if (!items.equals(phrase.charAt(index++))) {
+                    result = false;
+                    break;
+                }
+            if (!result) break;
+            palindrome.clear();
         }
-        if (!haveNums) writer.write("0");
-        else writer.write(numLine.trim());
-        writer.close();
+        return result;
     }
 }
