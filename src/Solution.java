@@ -1,17 +1,15 @@
-import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Scanner;
 
 public class Solution {
-    public int getCountWords() throws IOException {
-        FileReader reader = new FileReader("src/text.txt");
-        BufferedReader bf = new BufferedReader(reader);
-        int c = 0;
+    public int getCountWords() throws FileNotFoundException {
         int count = 0;
-        while (c != -1){
-            c = bf.read();
-            if ((char)c == ' ') count++;
+        Scanner scanner = new Scanner(new FileInputStream ("Root/src/text.txt"));
+        while (scanner.hasNextLine()) {
+            String[] words = scanner.nextLine().split(" ");
+            count += words.length;
         }
+        return count;
     }
 }
