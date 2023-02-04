@@ -1,20 +1,24 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class Solution {
-    public int getMul() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src/data.txt"));
-
-        int firstNumber = Integer.parseInt(br.readLine());
-        String[] numStr = br.readLine().split(" ");
-        int mul = 1;
-        for (int i = 1; i <= firstNumber; i++) {
-            for (int j = 0; j < numStr.length; j++) {
-                if ((i % Integer.parseInt(numStr[j])) == 0) {
-                    mul *= i;
-                    break;
-                }
+    public void writeOrder() throws IOException {
+        Scanner scanner = new Scanner(new FileInputStream("src/numbers.txt"));
+        Writer writer = new FileWriter("src/output.txt");
+        int count = 1;
+        boolean haveNums = false;
+        int digit;
+        String numLine = "";
+        while (scanner.hasNextLine()) {
+            digit = Integer.parseInt(scanner.nextLine());
+            if (digit == count) {
+                numLine += digit + " ";
+                haveNums = true;
             }
+            count++;
         }
-        return mul;
+        if (!haveNums) writer.write("0");
+        else writer.write(numLine.trim());
+        writer.close();
     }
 }
