@@ -1,0 +1,6 @@
+id;merchant;product;quantity;price
+1;Cherevik;hemp;20;5
+2;Cherevik;straw;12;6
+3;Gritsko;harness;3;15
+2;Cherevik;straw;12;6
+1;Cherevik;hemp;20;5
