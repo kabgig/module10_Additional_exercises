@@ -1,37 +1,18 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Solution {
-    public void solution() throws IOException {
-        Scanner scanner = new Scanner(new FileInputStream("src/data2.txt"));
-        Writer writer = new FileWriter("src/output.txt");
-
-        int midStr;
-        int dfr = scanner.nextInt();
-        int allChars = 0;
-
-        //putting all strings to list
-        List<String> phrases = new ArrayList<>();
-        while (scanner.hasNextLine()){
-            phrases.add(scanner.nextLine());
-        }
-        phrases.remove(0);
-        //count midStr
-        for (String s : phrases)
-            allChars += s.length();
-        midStr = allChars/ phrases.size();// midStr +-difference
-
-        writer.write(midStr + "\n");
-
-
+    public void solution(double n) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new FileInputStream("src/EGE.txt"));
+        String line = scanner.nextLine();
         String result = "";
-        for(String s:phrases) {
-            int sL = s.length();
-            if ((midStr - dfr) <= sL && sL <= (midStr + dfr)) result += s + "\n";
+        while(scanner.hasNextLine()){
+            String[] data = scanner.nextLine().split(";");
+            if (Double.parseDouble(data[2]) >= n){
+                result += data[0] + "\n";
+            }
         }
-        writer.write(result.trim());
-        writer.close();
+        System.out.println(result.trim());
     }
 }
