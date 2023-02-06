@@ -1,25 +1,24 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Solution {
-    public double findSquare() throws FileNotFoundException {
-        Scanner scanner = new Scanner(
-                new FileInputStream("src/points.txt"));
-        String[] prevPoint = scanner.nextLine().split(" ");
-        double square = 0;
+    public void solve() throws IOException {
+        Scanner scanner = new Scanner(new FileInputStream("src/arithmetic.txt"));
+        Writer writer = new FileWriter("src/answers.txt");
+        String result = "";
         while (scanner.hasNextLine()) {
-            String[] nextPoint = scanner.nextLine().split(" ");
-            int prevX = Integer.parseInt(prevPoint[0]);
-            int prevY = Integer.parseInt(prevPoint[1]);
-            int nextX = Integer.parseInt(nextPoint[0]);
-            int nextY = Integer.parseInt(nextPoint[1]);
-            double a = prevY;
-            double b = nextY;
-            double h = nextX - prevX;
-            square += (a + b) / 2 + h;
-            prevPoint = nextPoint;
+            String[] data = scanner.nextLine().split(" ");
+            int digit1 = Integer.parseInt(data[0]);
+            String opSym = data[1];
+            int digit2 = Integer.parseInt(data[2]);
+            int res = 0;
+            if (opSym.equals("+")) res = digit1 + digit2;
+            if (opSym.equals("-")) res = digit1 - digit2;
+            if (opSym.equals("*")) res = digit1 * digit2;
+            if (opSym.equals("/")) res = digit1 / digit2;
+            result += digit1 + " " + data[1] + " " + digit2 + " = " + res + "\n";
         }
-        return square;
+        writer.write(result.trim());
+        writer.close();
     }
 }
