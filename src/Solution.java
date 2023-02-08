@@ -24,5 +24,24 @@ public class Solution {
             return;
         }
 
+        int from0 = 0;
+        int from1 = 0;
+        int smallestTree = 0;
+
+        if (trees.length % 2 != 0)
+            for (int i = 2; i < trees.length; i += 2) {
+                smallestTree = Math.min(trees[i - 2], trees[i]);
+            }
+
+        for (int i = 0; i < trees.length; i += 2) {
+            from0 += trees[i];
+        }
+        from0 -= smallestTree;
+
+        for (int i = 1; i < trees.length; i += 2) {
+            from1 += trees[i];
+        }
+
+        System.out.println(Math.max(from0, from1));
     }
 }
