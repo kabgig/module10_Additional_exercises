@@ -8,6 +8,10 @@ public class Solution {
     public void solution() throws FileNotFoundException {
         Scanner scanner = new Scanner(new FileInputStream("src/trees.txt"));
 
-        int[] trees = Arrays.stream(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt))
+        int[] trees = Arrays.stream(Arrays.stream(scanner
+                .nextLine()
+                .split(" ")
+                .mapToInt(Integer::parseInt)
+                .toArray());
     }
 }
