@@ -11,7 +11,7 @@ public class Solution {
     public int findMaxQuantity() throws IOException {
         Scanner scanner = new Scanner(new FileInputStream("src/forest.txt"));
         Path path = Paths.get("src/forest.txt");
-        int numLines = (int)Files.lines(path).count();
+        int numLines = (int) Files.lines(path).count();
 
         int totalMushrooms = 0;
         int index = 0;
@@ -28,7 +28,7 @@ public class Solution {
                 .toArray();
         numLines--;
 
-        while (numLines >0 ) {
+        while (numLines >= 0) {
 
             if (index < currentArray.length - 1 && currentArray[index + 1] >= nextArray[index]) {
                 totalMushrooms += currentArray[index + 1];
@@ -36,16 +36,24 @@ public class Solution {
             } else {
                 totalMushrooms += nextArray[index];
                 currentArray = nextArray;
-                nextArray = Arrays
-                        .stream(scanner.nextLine().split(";"))
-                        .mapToInt(Integer::parseInt)
-                        .toArray();
-                numLines--;
+                if (scanner.hasNextLine()) {
+                    nextArray = Arrays
+                            .stream(scanner.nextLine().split(";"))
+                            .mapToInt(Integer::parseInt)
+                            .toArray();
+                    numLines--;
+                } else {
+                    while (currentArray.length > index + 1) {
+                        totalMushrooms += currentArray[index + 1];
+                        index++;
+                    }
+                    break;
+
+                }
 
             }
         }
 
-        while (currentArray.length > index) totalMushrooms += currentArray[index++];
         return totalMushrooms;
     }
 }
