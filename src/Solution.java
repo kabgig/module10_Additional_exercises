@@ -1,59 +1,13 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Solution {
-    public int findMaxQuantity() throws IOException {
-        Scanner scanner = new Scanner(new FileInputStream("src/forest.txt"));
-        Path path = Paths.get("src/forest.txt");
-        int numLines = (int) Files.lines(path).count();
+    public void solution() throws FileNotFoundException {
+        Scanner scanner = new Scanner(new FileInputStream("src/trees.txt"));
 
-        int totalMushrooms = 0;
-        int index = 0;
-        int[] currentArray = Arrays
-                .stream(scanner.nextLine().split(";"))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        numLines--;
-        totalMushrooms += currentArray[0];
-
-        int[] nextArray = Arrays
-                .stream(scanner.nextLine().split(";"))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        numLines--;
-
-        while (numLines >= 0) {
-
-            if (index < currentArray.length - 1 && currentArray[index + 1] >= nextArray[index]) {
-                totalMushrooms += currentArray[index + 1];
-                index++;
-            } else {
-                totalMushrooms += nextArray[index];
-                currentArray = nextArray;
-                if (scanner.hasNextLine()) {
-                    nextArray = Arrays
-                            .stream(scanner.nextLine().split(";"))
-                            .mapToInt(Integer::parseInt)
-                            .toArray();
-                    numLines--;
-                } else {
-                    while (currentArray.length > index + 1) {
-                        totalMushrooms += currentArray[index + 1];
-                        index++;
-                    }
-                    break;
-
-                }
-
-            }
-        }
-
-        return totalMushrooms;
+        int[] trees = Arrays.stream(Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt))
     }
 }
