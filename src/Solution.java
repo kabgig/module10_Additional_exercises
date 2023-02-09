@@ -1,47 +1,65 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Solution {
-    public void solution() throws FileNotFoundException {
-        Scanner scanner = new Scanner(new FileInputStream("src/trees.txt"));
-        int result = 0;
-        int[] trees = Arrays.stream(scanner.nextLine()
-                        .split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        if (trees.length == 1) {
-            System.out.println(trees[0]);
-            return;
+    public void getOutput() throws IOException {
+        Scanner scanner = new Scanner(new FileInputStream("src/files.txt"));
+        Writer writer = new FileWriter("src/output.txt");
+        List<String[]> bmpGr = new ArrayList<>();
+        List<String[]> txtGr = new ArrayList<>();
+        List<String[]> zipGr = new ArrayList<>();
+
+        //sorting files to groups
+        while (scanner.hasNextLine()) {
+            String[] line = scanner.nextLine().split(" ");
+            String[] extCheck = line[0].split("[.]");
+            if (extCheck[1].equals("bmp")) bmpGr.add(line);
+            if (extCheck[1].equals("txt")) txtGr.add(line);
+            if (extCheck[1].equals("zip")) zipGr.add(line);
         }
-        if (trees.length < 4) {
-            for (int i = 1; i < trees.length; i++) {
-                result = Math.max(trees[i - 1], trees[i]);
-            }
-            System.out.println(result);
-            return;
+        //sorting names in groups
+        Collections.sort(bmpGr, Comparator.comparing((String[] a) -> a[0]));
+        Collections.sort(txtGr, Comparator.comparing((String[] a) -> a[0]));
+        Collections.sort(zipGr, Comparator.comparing((String[] a) -> a[0]));
+
+        if (!(bmpGr.isEmpty())) {
+            for (String[] line : bmpGr) writer.write(line[0] + "\n");
+            writer.write("----------\n");
+            writer.write("Summary: " + countSize(bmpGr) + "\n");
+            writer.write("\n");
+        }
+        if (!(txtGr.isEmpty())) {
+            for (String[] line : txtGr) writer.write(line[0] + "\n");
+            writer.write("----------\n");
+            writer.write("Summary: " + countSize(txtGr) + "\n");
+            writer.write("\n");
+        }
+        if (!(zipGr.isEmpty())) {
+            for (String[] line : zipGr) writer.write(line[0] + "\n");
+            writer.write("----------\n");
+            writer.write("Summary: " + countSize(zipGr));
         }
 
-        int from0 = 0;
-        int from1 = 0;
-        int smallestTree = 0;
+        writer.close();
+    }
 
-        if (trees.length % 2 != 0)
-            for (int i = 2; i < trees.length; i += 2) {
-                smallestTree = Math.min(trees[i - 2], trees[i]);
-            }
-
-        for (int i = 0; i < trees.length; i += 2) {
-            from0 += trees[i];
+    public static String countSize(List<String[]> list) {
+        String size;
+        double sizeLong = 0;
+        //counting size
+        for (String[] line : list) {
+            if (line[2].equals("B")) sizeLong += Long.parseLong(line[1]);
+            if (line[2].equals("KB")) sizeLong += (Long.parseLong(line[1]) * 1000);
+            if (line[2].equals("MB")) sizeLong += (Long.parseLong(line[1]) * 1000_000);
         }
-        from0 -= smallestTree;
-
-        for (int i = 1; i < trees.length; i += 2) {
-            from1 += trees[i];
+        if (sizeLong < 1000) size = sizeLong + " B";
+        if (sizeLong > 1000_000) {
+            sizeLong /= 1000_000; //ROUND THE RIGHT WAY!
+            size = Math.round(sizeLong) + " MB";
+        } else {
+            sizeLong /= 1000;
+            size = Math.round(sizeLong) + " KB";
         }
-
-        System.out.println(Math.max(from0, from1));
+        return size;
     }
 }
